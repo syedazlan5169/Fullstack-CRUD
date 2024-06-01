@@ -73,7 +73,7 @@
             <button type="submit" class="btn">Login</button>
         </form>
         <!-- Register button -->
-        <form action="register.php" method="post">
+        <form action="register_form.php" method="post">
             <button type="submit" class="btn">Register</button>
         </form>
     </div>
