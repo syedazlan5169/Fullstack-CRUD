@@ -5,7 +5,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username_or_email = $_POST['username_or_email'];
-    $password_or_email = $_POST['password'];
+    $password= $_POST['password'];
 
     if (empty($username_or_email) || empty($password)) {
         echo "Both fields are requred";
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("ss", $username_or_email, $password);
+        $stmt->bind_param("ss", $username_or_email, $username_or_email);
 
         if ($stmt->execute() === TRUE) {
             $stmt->store_result();
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['username'] = $username;
                         $_SESSION['authority_level'] = $authority_level;
 
-                        header("Locations: index.php");
+                        header("Location: index.php");
                         exit;
                     } else {
                         echo "Invalid password";

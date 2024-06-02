@@ -5,5 +5,7 @@
   <PropertyGroup>
     <EnvName>PHPDev</EnvName>
     <RuntimeVersion>8.3</RuntimeVersion>
+    <RootNamespace>Fullstack_CRUD</RootNamespace>
+    <WebRoot />
   </PropertyGroup>
 </Project>
