@@ -22,6 +22,15 @@ $query_profile = "SELECT * FROM users_profile WHERE userID = '$user_id'";
 $result_profile = mysqli_query($conn, $query_profile);
 $profile_exists = mysqli_num_rows($result_profile) > 0;
 
+// Fetch membership data from memberships table
+$query_membership = "SELECT * FROM memberships WHERE userID = '$user_id'";
+$result_membership = mysqli_query($conn, $query_membership);
+$membership_exists = mysqli_num_rows($result_membership) > 0;
+
+if ($membership_exists) {
+    $membership = mysqli_fetch_assoc($result_membership);
+}
+
 if ($profile_exists) {
     $profile = mysqli_fetch_assoc($result_profile);
 }
@@ -158,8 +167,41 @@ if (isset($_SESSION['message'])) {
         </div>
         <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
             <h3 class="mt-3">Membership</h3>
-            <!-- Display membership information -->
-            <p>Placeholder for membership information</p>
+            <?php if ($membership_exists) { ?>
+                    <div class="form-group">
+                        <label for="membership_number">Membership Number</label>
+                        <?php if ($membership['status'] == 'Approved') { ?>
+                            <input type="text" class="form-control" id="membership_number" value="<?php echo $membership['membership_number']; ?>" readonly>
+                        <?php } else { ?>
+                            <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="mykad">No IC</label>
+                        <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="member_since">Member Since</label>
+                        <input type="text" class="form-control" id="member_since" value="<?php echo $membership['member_since']; ?>" readonly>
+                    </div>            
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
+                    </div>
+            <?php } if ($membership_exists && ($membership['status'] == 'Rejected')) { ?>
+                        <div class="form-group">
+                                <label for="status">Status</label>
+                            <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
+                        </div> 
+            <?php } else { ?>
+                <form action="apply_membership.php" method="post">
+                    <div class="form-group">
+                        <label for="mykad">My Kad</label>
+                        <input type="text" class="form-control" id="mykad" name="mykad">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+            <?php } ?>
         </div>
     </div>
 </div>
