@@ -86,7 +86,7 @@ if (isset($_SESSION['message'])) {
     <div class="tab-content" id="myTabContent">
         <?php if ($authority_level == 2 || $authority_leve = 3) : ?>
         <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-            <h3 class="mt-3">Admin Functions</h3>
+            <h3 class="mt-3">Admin Functions Test</h3>
             <!-- Add your admin functionalities here -->
             <p>Placeholder for admin functions</p>
         </div>
