@@ -93,7 +93,7 @@ if (isset($_SESSION['message'])) {
         <?php endif; ?>
         <div class="tab-pane fade <?php echo ($authority_level == 1) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h3 class="mt-3">Profile</h3>
-            <?php if ($profile_exists) { ?>
+            <?php if ($profile_exists): ?>
                 <form action="update_profile.php" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -128,7 +128,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
                 </form>
-            <?php } else { ?>
+            <?php else: ?>
                 <form action="create_profile.php" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -163,11 +163,11 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <button type="submit" class="btn btn-primary">Create Profile</button>
                 </form>
-            <?php } ?>
+            <?php endif; ?>
         </div>
         <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
             <h3 class="mt-3">Membership</h3>
-            <?php  if ($membership_exists) { ?>
+            <?php if ($membership_exists): ?>
                    <?php if ($membership['status'] == 'Rejected') { ?>
                         <div class="form-group">
                             <label for="status">Status</label>
@@ -176,11 +176,11 @@ if (isset($_SESSION['message'])) {
                    <?php } else { ?>
                         <div class="form-group">
                             <label for="membership_number">Membership Number</label>
-                            <?php if ($membership['status'] == 'Approved') { ?>
+                            <?php if ($membership['status'] == 'Approved'): ?>
                                 <input type="text" class="form-control" id="membership_number" value="<?php echo $membership['membership_number']; ?>" readonly>
-                            <?php } else { ?>
+                            <?php else: ?>
                                 <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
-                            <?php } ?>
+                            <?php endif; ?>
                         </div>
                         <div class="form-group">
                             <label for="mykad">No IC</label>
@@ -194,8 +194,8 @@ if (isset($_SESSION['message'])) {
                             <label for="status">Status</label>
                             <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
                         </div>
-                   <?php }?> 
-            <?php } else { ?>
+                   <?php } ?> 
+            <?php else: ?>
                 <form action="apply_membership.php" method="post">
                     <div class="form-group">
                         <label for="mykad">My Kad</label>
@@ -203,7 +203,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <button type="submit" class="btn btn-primary">Apply</button>
                 </form>
-            <?php } ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
