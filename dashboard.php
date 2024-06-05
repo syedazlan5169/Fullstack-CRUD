@@ -168,12 +168,31 @@ if (isset($_SESSION['message'])) {
         <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
             <h3 class="mt-3">Membership</h3>
             <?php if ($membership_exists): ?>
-                   <?php if ($membership['status'] == 'Rejected') { ?>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
-                        </div>                   
-                   <?php } else { ?>
+                   <?php if ($membership['status'] == 'Rejected'): ?>
+                            <form action="reapply_membership.php" method="post">
+                                <div class="form-group">
+                                    <label for="membership_number">Membership Number</label>
+                                    <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mykad">No IC</label>
+                                    <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="member_since">Member Since</label>
+                                    <input type="text" class="form-control" id="member_since" value="<?php echo $membership['member_since']; ?>" readonly>
+                                </div>            
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">Comment</label>
+                                    <textarea class="form-control" id="comment" readonly><?php echo $membership['comment']; ?></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Re-Apply</button>
+                            </form>
+                   <?php else: ?>
                         <div class="form-group">
                             <label for="membership_number">Membership Number</label>
                             <?php if ($membership['status'] == 'Approved'): ?>
@@ -194,7 +213,7 @@ if (isset($_SESSION['message'])) {
                             <label for="status">Status</label>
                             <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
                         </div>
-                   <?php } ?> 
+                   <?php endif; ?> 
             <?php else: ?>
                 <form action="apply_membership.php" method="post">
                     <div class="form-group">
