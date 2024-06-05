@@ -172,15 +172,11 @@ if (isset($_SESSION['message'])) {
                             <form action="reapply_membership.php" method="post">
                                 <div class="form-group">
                                     <label for="membership_number">Membership Number</label>
-                                    <?php if ($membership['status'] == 'Approved'): ?>
-                                        <input type="text" class="form-control" id="membership_number" value="<?php echo $membership['membership_number']; ?>" readonly>
-                                    <?php else: ?>
-                                        <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
-                                    <?php endif; ?>
+                                    <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
                                 </div>
                                 <div class="form-group">
                                     <label for="mykad">No IC</label>
-                                    <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>" readonly>
+                                    <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="member_since">Member Since</label>
@@ -189,6 +185,10 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">Comment</label>
+                                    <textarea class="form-control" id="comment" readonly><?php echo $membership['comment']; ?></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Re-Apply</button>
                             </form>
