@@ -23,13 +23,13 @@ $result_profile = mysqli_query($conn, $query_profile);
 $profile_exists = mysqli_num_rows($result_profile) > 0;
 
 // Fetch membership data from memberships table
-$query_membership = "SELECT * FROM memberships WHERE userID = '$user_id'";
-$result_membership = mysqli_query($conn, $query_membership);
-$membership_exists = mysqli_num_rows($result_membership) > 0;
+//$query_membership = "SELECT * FROM memberships WHERE userID = '$user_id'";
+//$result_membership = mysqli_query($conn, $query_membership);
+//$membership_exists = mysqli_num_rows($result_membership) > 0;
 
-if ($membership_exists) {
-    $membership = mysqli_fetch_assoc($result_membership);
-}
+//if ($membership_exists) {
+//    $membership = mysqli_fetch_assoc($result_membership);
+//}
 
 if ($profile_exists) {
     $profile = mysqli_fetch_assoc($result_profile);
@@ -104,6 +104,10 @@ if (isset($_SESSION['message'])) {
                         <input type="email" class="form-control" id="email" value="<?php echo $user['email']; ?>" readonly>
                     </div>
                     <div class="form-group">
+                        <label for="mykad">My Kad Number</label>
+                        <input type="text" class="form-control" id="mykad" name="mykad" value="<?php echo $profile['mykad'];?>">
+                    </div>
+                    <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?php echo $profile['name']; ?>">
                     </div>
@@ -137,6 +141,10 @@ if (isset($_SESSION['message'])) {
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" value="<?php echo $user['email']; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="mykad">My Kad Number</label>
+                        <input type="text" class="form-control" id="mykad" name="mykad">
                     </div>
                     <div class="form-group">
                         <label for="name">Full Name</label>
