@@ -17,19 +17,10 @@ $result_user = mysqli_query($conn, $query_user);
 $user = mysqli_fetch_assoc($result_user);
 
 // Fetch user profile data from users_profile table
-$user_id = $user['id'];
-$query_profile = "SELECT * FROM users_profile WHERE userID = '$user_id'";
+$userID = $user['id'];
+$query_profile = "SELECT * FROM users_profile WHERE userID = '$userID'";
 $result_profile = mysqli_query($conn, $query_profile);
 $profile_exists = mysqli_num_rows($result_profile) > 0;
-
-// Fetch membership data from memberships table
-//$query_membership = "SELECT * FROM memberships WHERE userID = '$user_id'";
-//$result_membership = mysqli_query($conn, $query_membership);
-//$membership_exists = mysqli_num_rows($result_membership) > 0;
-
-//if ($membership_exists) {
-//    $membership = mysqli_fetch_assoc($result_membership);
-//}
 
 if ($profile_exists) {
     $profile = mysqli_fetch_assoc($result_profile);
@@ -105,7 +96,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <div class="form-group">
                         <label for="mykad">My Kad Number</label>
-                        <input type="text" class="form-control" id="mykad" name="mykad" value="<?php echo $profile['mykad'];?>">
+                        <input type="text" class="form-control" id="mykad" name="mykad" value="<?php echo $profile['mykad'];?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="name">Full Name</label>
@@ -175,58 +166,60 @@ if (isset($_SESSION['message'])) {
         </div>
         <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
             <h3 class="mt-3">Membership</h3>
-            <?php if ($membership_exists): ?>
-                   <?php if ($membership['status'] == 'Rejected'): ?>
-                            <form action="reapply_membership.php" method="post">
-                                <div class="form-group">
-                                    <label for="membership_number">Membership Number</label>
-                                    <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="mykad">No IC</label>
-                                    <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="member_since">Member Since</label>
-                                    <input type="text" class="form-control" id="member_since" value="<?php echo $membership['member_since']; ?>" readonly>
-                                </div>            
-                                <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="comment">Comment</label>
-                                    <textarea class="form-control" id="comment" readonly><?php echo $membership['comment']; ?></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Re-Apply</button>
-                            </form>
-                   <?php else: ?>
-                        <div class="form-group">
-                            <label for="membership_number">Membership Number</label>
-                            <?php if ($membership['status'] == 'Approved'): ?>
-                                <input type="text" class="form-control" id="membership_number" value="<?php echo $membership['membership_number']; ?>" readonly>
-                            <?php else: ?>
-                                <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
-                            <?php endif; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="mykad">No IC</label>
-                            <input type="text" class="form-control" id="mykad" value="<?php echo $membership['mykad']; ?>" readonly>
-                            </div>
-                        <div class="form-group">
-                            <label for="member_since">Member Since</label>
-                            <input type="text" class="form-control" id="member_since" value="<?php echo $membership['member_since']; ?>" readonly>
-                        </div>            
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <input type="text" class="form-control" id="status" value="<?php echo $membership['status']; ?>" readonly>
-                        </div>
-                   <?php endif; ?> 
+            <?php if ($profile['application_status'] == 'Approved'): ?>
+                 <div class="form-group">
+                    <label for="mykad">No IC</label>
+                    <input type="text" class="form-control" id="mykad" value="<?php echo $profile['mykad']; ?>" readonly>
+                 </div>
+                 <div class="form-group">
+                     <label for="membership_number">Membership Number</label>
+                     <input type="text" class="form-control" id="membership_number" value="<?php echo $profile['membership_number']; ?>" readonly>
+                 </div>
+                 <div class="form-group">
+                    <label for="member_since">Member Since</label>
+                    <input type="date" class="form-control" id="member_since" value="<?php echo $profile['member_since']; ?>" readonly>
+                 </div>            
+                 <div class="form-group">
+                    <label for="status">Status</label>
+                    <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                 </div>
+            <?php elseif ($profile['application_status'] == 'Pending'): ?>
+                 <div class="form-group">
+                    <label for="mykad">No IC</label>
+                    <input type="text" class="form-control" id="mykad" value="<?php echo $profile['mykad']; ?>" readonly>
+                 </div>
+                 <!--<div class="form-group">
+                     <label for="membership_number">Membership Number</label>
+                     <input type="text" class="form-control" id="membership_number" value="Your application has not been approve yet" readonly style="color:red;">
+                 </div>
+                 <div class="form-group">
+                    <label for="member_since">Member Since</label>
+                    <input type="date" class="form-control" id="member_since" value="Your application has not been approve yet" readonly style="color:red;">
+                 </div>-->            
+                 <div class="form-group">
+                    <label for="status">Status</label>
+                    <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                 </div>
+            <?php elseif ($profile['application_status'] == 'Rejected'): ?>
+                 <form action="apply_membership.php" method="post">
+                    <div class="form-group">
+                        <label for="mykad">No IC</label>
+                        <input type="text" class="form-control" id="mykad" value="<?php echo $profile['mykad']; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea class="form-control" id="comment" style="color:red;" readonly><?php echo $profile['comment']; ?></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Re-Apply</button>
+                 </form>
             <?php else: ?>
                 <form action="apply_membership.php" method="post">
                     <div class="form-group">
-                        <label for="mykad">My Kad</label>
-                        <input type="text" class="form-control" id="mykad" name="mykad">
+                        <p style="color:red;"> Please make sure your profile info is true and click Apply button to apply for membership. The application will be process within 2 to 3 days. You can visit this page to check the application status</p>
                     </div>
                     <button type="submit" class="btn btn-primary">Apply</button>
                 </form>

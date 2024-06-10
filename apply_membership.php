@@ -8,11 +8,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include 'dbcon.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_id = $_SESSION['id'];
-    $mykad = $_POST['mykad'];
+    $userID = $_SESSION['id'];
 
-    $stmt = $conn->prepare("INSERT INTO memberships (userID, mykad) VALUES (?, ?)");
-    $stmt->bind_param("is", $user_id, $mykad);
+    $stmt = $conn->prepare("UPDATE users_profile SET application_status = 'Pending' WHERE userID = ?");
+    $stmt->bind_param("i",$userID);
     $stmt->execute();
 
     if ($stmt->execute()) {

@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include 'dbcon.php';
 
-$user_id = $_SESSION['id']; 
+$userID = $_SESSION['id']; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sex = $_POST['sex'];
     $state = $_POST['state'];
 
-    $query = "UPDATE users_profile SET name='$name', phone='$phone', birthdate='$birthdate', sex='$sex', state='$state' WHERE userID='$user_id'";
+    $query = "UPDATE users_profile SET name='$name', phone='$phone', birthdate='$birthdate', sex='$sex', state='$state' WHERE userID='$userID'";
 
     if (mysqli_query($conn, $query)) {
         $_SESSION['message'] = "Profile updated successfully.";

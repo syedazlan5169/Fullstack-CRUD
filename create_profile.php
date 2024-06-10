@@ -8,16 +8,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include 'dbcon.php';
 
-$user_id = $_SESSION['id']; 
+$userID = $_SESSION['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $mykad = $_POST['mykad'];
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $birthdate = $_POST['birthdate'];
     $sex = $_POST['sex'];
     $state = $_POST['state'];
 
-    $query = "INSERT INTO users_profile (userID, name, phone, birthdate, sex, state) VALUES ('$user_id', '$name', '$phone', '$birthdate', '$sex', '$state')";
+    $query = "INSERT INTO users_profile (userID, mykad, name, phone, birthdate, sex, state) VALUES ('$userID', '$mykad', '$name', '$phone', '$birthdate', '$sex', '$state')";
 
     if (mysqli_query($conn, $query)) {
         $_SESSION['message'] = "Profile created successfully.";
@@ -27,6 +28,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['message'] = "Error: Could not create profile. " . $conn->error;
         header('Location: dashboard.php');
     }
-}
-?>
-
+} ?> 
