@@ -22,23 +22,23 @@ h2 {
     margin-bottom: 15px;
 }
 
-    .input-group label {
+.input-group label {
         display: block;
         margin-bottom: 5px;
-    }
+}
 
-    .input-group input {
+.input-group input {
         width: 94%;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         transition: border-color 0.3s;
-    }
+}
 
-        .input-group input:focus {
+.input-group input:focus {
             border-color: #007bff;
             outline: none;
-        }
+}
 
 .btn {
     display: block;
@@ -52,7 +52,12 @@ h2 {
     cursor: pointer;
 }
 
-    .btn:hover {
+.btn:hover {
         background: #0056b3;
-    }
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
 

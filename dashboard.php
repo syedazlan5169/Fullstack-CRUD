@@ -40,6 +40,81 @@ if (isset($_SESSION['message'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .approved { color: green; }
+        .pending { color: orange; }
+        .rejected { color: red; }
+
+        .table-wrapper {
+            overflow-y: auto;
+            max-height: 200px; /* Adjust the height as needed */
+        }
+
+        .table-wrapper table {
+            width: 100%;
+            table-layout: fixed; /* Ensures the columns have the same width */
+        }
+
+        .table-wrapper thead {
+            position: sticky;
+            top: 0;
+            background-color: #343a40;
+            color: white;
+        }
+
+        .table-wrapper thead,
+        .table-wrapper tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* Ensures the columns have the same width */
+        }
+
+        .table-wrapper tbody {
+            display: block;
+            max-height: 300px; /* Adjust the height as needed */
+            overflow-y: auto;
+        }
+
+        .table-wrapper th:nth-child(1),
+        .table-wrapper td:nth-child(1) {
+            width: 20%; /* 1st column width */
+        }
+
+        .table-wrapper th:nth-child(2),
+        .table-wrapper td:nth-child(2) {
+            width: 50%; /* 2nd column width */
+        }
+
+        .table-wrapper th:nth-child(3),
+        .table-wrapper td:nth-child(3) {
+            width: 10%; /* 3rd column width */
+        }
+
+        .table-wrapper th:nth-child(4),
+        .table-wrapper td:nth-child(4) {
+            width: 20%; /* 4th column width */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#adminSearchForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'admin_search.php',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#adminSearchResults').html(data);
+                    }
+                });
+            });
+
+            $('#clearButton').on('click', function() {
+                $('#adminSearchForm').trigger('reset');
+            })
+        });
+    </script>
 </head>
 <body>
 
@@ -62,7 +137,7 @@ if (isset($_SESSION['message'])) {
         </div>
     <?php endif; ?>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-       <?php if ($authority_level == 2 || $authority_level == 3): ?>
+        <?php if ($authority_level == 2 || $authority_level == 3): ?>
         <li class="nav-item">
             <a class="nav-link active" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="true">Admin</a>
         </li>
@@ -75,15 +150,59 @@ if (isset($_SESSION['message'])) {
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <?php if ($authority_level == 2 || $authority_leve = 3) : ?>
+        <?php if ($authority_level == 2 || $authority_level == 3): ?>
         <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
             <h3 class="mt-3">Admin Functions</h3>
-            <!-- Add your admin functionalities here -->
-            <p>Placeholder for admin functions</p>
+            <!-- Admin tab-->
+            <form id="adminSearchForm">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="mykad">MyKad</label>
+                        <input type="text" class="form-control" id="mykad" name="mykad">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="membership_number">Membership Number</label>
+                        <input type="text" class="form-control" id="membership_number" name="membership_number">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="application_status">Application Status</label>
+                        <select class="form-control" id="application_status" name="application_status">
+                            <option value="">Select Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2 align-self-end">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-secondary" id="clearButton">Clear</button>
+                    </div>
+                </div>
+            </form>
+           <div class="table-wrapper">
+           <table class="table table-bordered table-hover">
+               <thead class="thead-dark">
+                   <tr>
+                       <th>MyKad</th>
+                       <th>Name</th>
+                       <th>Sex</th>
+                       <th>Application Status</th>
+                   </tr>
+               </thead>
+               <tbody id="adminSearchResults">
+                   <!-- Search results -->
+               </tbody>
+           </table>
+           </div>
         </div>
         <?php endif; ?>
         <div class="tab-pane fade <?php echo ($authority_level == 1) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h3 class="mt-3">Profile</h3>
+            <!-- Profile tab -->
             <?php if ($profile_exists): ?>
                 <form action="update_profile.php" method="post">
                     <div class="form-group">
@@ -96,7 +215,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <div class="form-group">
                         <label for="mykad">My Kad Number</label>
-                        <input type="text" class="form-control" id="mykad" name="mykad" value="<?php echo $profile['mykad'];?>" readonly>
+                        <input type="text" class="form-control" id="mykad" name="mykad" value="<?php echo $profile['mykad']; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="name">Full Name</label>
@@ -166,6 +285,7 @@ if (isset($_SESSION['message'])) {
         </div>
         <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
             <h3 class="mt-3">Membership</h3>
+            <!-- Membership tab -->
             <?php if ($profile['application_status'] == 'Approved'): ?>
                  <div class="form-group">
                     <label for="mykad">No IC</label>
@@ -181,7 +301,7 @@ if (isset($_SESSION['message'])) {
                  </div>            
                  <div class="form-group">
                     <label for="status">Status</label>
-                    <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                    <input type="text" class="form-control" id="status" value="Approved" style="color: green;" readonly>
                  </div>
             <?php elseif ($profile['application_status'] == 'Pending'): ?>
                  <div class="form-group">
@@ -198,7 +318,7 @@ if (isset($_SESSION['message'])) {
                  </div>-->            
                  <div class="form-group">
                     <label for="status">Status</label>
-                    <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                    <input type="text" class="form-control" id="status" value="Pending" style="color: orange;" readonly>
                  </div>
             <?php elseif ($profile['application_status'] == 'Rejected'): ?>
                  <form action="apply_membership.php" method="post">
@@ -208,7 +328,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <input type="text" class="form-control" id="status" value="<?php echo $profile['application_status']; ?>" readonly>
+                        <input type="text" class="form-control" id="status" value="Rejected" style="color: red;" readonly>
                     </div>
                     <div class="form-group">
                         <label for="comment">Comment</label>
@@ -228,7 +348,7 @@ if (isset($_SESSION['message'])) {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
