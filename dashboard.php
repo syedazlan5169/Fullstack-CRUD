@@ -261,7 +261,12 @@ if (isset($_SESSION['message'])) {
                 </div>
                 <div class="form-group">
                     <label for="applicationStatusDetail">Application Status</label>
-                    <input type="text" class="form-control" id="applicationStatusDetail">
+                    <!-- <input type="text" class="form-control" id="applicationStatusDetail"> -->
+                    <select class="form-control" id="applicationStatusDetail" name="applicationStatusDetail">
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="commentDetail">Comment</label>
