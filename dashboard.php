@@ -113,6 +113,31 @@ if (isset($_SESSION['message'])) {
             $('#clearButton').on('click', function() {
                 $('#adminSearchForm').trigger('reset');
             })
+
+            // Handle row click to fetch and populate form with user details
+            $(document).on('click', '#adminSearchResults tr', function() {
+                var userID = $(this).data('userid'); // Get the userID from data attribute
+
+                $.ajax({
+                    url: 'fetch_user_details.php',
+                    type: 'GET',
+                    data: { userID: userID },
+                    success: function (data) {
+                        var userDetails = JSON.parse(data);
+                        $('#userDetailsForm').show();
+                        $('#userID').val(userDetails.userID);
+                        $('#mykadDetail').val(userDetails.mykad);
+                        $('#nameDetail').val(userDetails.name);
+                        $('#phoneDetail').val(userDetails.phone);
+                        $('#birthdateDetail').val(userDetails.birthdate);
+                        $('#sexDetail').val(userDetails.sex);
+                        $('#membershipNumberDetail').val(userDetails.membership_number);
+                        $('#memberSinceDetail').val(userDetails.member_since);
+                        $('#applicationStatusDetail').val(userDetails.application_status);
+                        $('#commentDetail').val(userDetails.comment);
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -198,6 +223,53 @@ if (isset($_SESSION['message'])) {
                </tbody>
            </table>
            </div>
+           <!-- User details form -->
+            <div id="userDetailsForm" style="display: none; margin-top: 20px;">
+            <h3>User Details</h3>
+            <form>
+                <div class="form-group">
+                    <label for="userID">UserID</label>
+                    <input type="text" class="form-control" id="userID" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="mykadDetail">MyKad</label>
+                    <input type="text" class="form-control" id="mykadDetail">
+                </div>
+                <div class="form-group">
+                    <label for="nameDetail">Name</label>
+                    <input type="text" class="form-control" id="nameDetail">
+                </div>
+                <div class="form-group">
+                    <label for="phoneDetail">Phone</label>
+                    <input type="text" class="form-control" id="phoneDetail">
+                </div>
+                <div class="form-group">
+                    <label for="birthdateDetail">Birthdate</label>
+                    <input type="date" class="form-control" id="birthdateDetail">
+                </div>
+                <div class="form-group">
+                    <label for="sexDetail">Sex</label>
+                    <input type="text" class="form-control" id="sexDetail">
+                </div>
+                <div class="form-group">
+                    <label for="membershipNumberDetail">Membership Number</label>
+                    <input type="text" class="form-control" id="membershipNumberDetail">
+                </div>
+                <div class="form-group">
+                    <label for="memberSinceDetail">Member Since</label>
+                    <input type="date" class="form-control" id="memberSinceDetail">
+                </div>
+                <div class="form-group">
+                    <label for="applicationStatusDetail">Application Status</label>
+                    <input type="text" class="form-control" id="applicationStatusDetail">
+                </div>
+                <div class="form-group">
+                    <label for="commentDetail">Comment</label>
+                    <textarea class="form-control" id="commentDetail"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+</div>
         </div>
         <?php endif; ?>
         <div class="tab-pane fade <?php echo ($authority_level == 1) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">

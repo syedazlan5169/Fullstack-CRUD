@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $statusClass = 'rejected';
             }
 
-            echo '<tr onclick="window.location.href=\'user_profile.php?id=' . htmlspecialchars($row['userID']) . '\'">';
+            echo '<tr data-userid="' . htmlspecialchars($row['userID']) . '">';
             echo '<td>' . htmlspecialchars($row['mykad']) . '</td>';
             echo '<td>' . htmlspecialchars($row['name']) . '</td>';
             echo '<td>' . htmlspecialchars($row['sex']) . '</td>';
