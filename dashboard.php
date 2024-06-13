@@ -226,38 +226,38 @@ if (isset($_SESSION['message'])) {
            <!-- User details form -->
             <div id="userDetailsForm" style="display: none; margin-top: 20px;">
             <h3>User Details</h3>
-            <form>
-                <div class="form-group">
+            <form action="update_profile.php" method="post">
+                <div class="form-group" style="display: none;">
                     <label for="userID">UserID</label>
-                    <input type="text" class="form-control" id="userID" readonly>
+                    <input type="text" class="form-control" id="userID" name="userID" readonly>
                 </div>
                 <div class="form-group">
                     <label for="mykadDetail">MyKad</label>
-                    <input type="text" class="form-control" id="mykadDetail">
+                    <input type="text" class="form-control" id="mykadDetail" name="mykadDetail">
                 </div>
                 <div class="form-group">
                     <label for="nameDetail">Name</label>
-                    <input type="text" class="form-control" id="nameDetail">
+                    <input type="text" class="form-control" id="nameDetail" name="nameDetail">
                 </div>
                 <div class="form-group">
                     <label for="phoneDetail">Phone</label>
-                    <input type="text" class="form-control" id="phoneDetail">
+                    <input type="text" class="form-control" id="phoneDetail" name="phoneDetail">
                 </div>
                 <div class="form-group">
                     <label for="birthdateDetail">Birthdate</label>
-                    <input type="date" class="form-control" id="birthdateDetail">
+                    <input type="date" class="form-control" id="birthdateDetail" name="birthdateDetail">
                 </div>
                 <div class="form-group">
                     <label for="sexDetail">Sex</label>
-                    <input type="text" class="form-control" id="sexDetail">
+                    <input type="text" class="form-control" id="sexDetail" name="sexDetail">
                 </div>
                 <div class="form-group">
                     <label for="membershipNumberDetail">Membership Number</label>
-                    <input type="text" class="form-control" id="membershipNumberDetail">
+                    <input type="text" class="form-control" id="membershipNumberDetail" name="membershipNumberDetail">
                 </div>
                 <div class="form-group">
                     <label for="memberSinceDetail">Member Since</label>
-                    <input type="date" class="form-control" id="memberSinceDetail">
+                    <input type="date" class="form-control" id="memberSinceDetail" name="memberSinceDetail">
                 </div>
                 <div class="form-group">
                     <label for="applicationStatusDetail">Application Status</label>
@@ -270,11 +270,11 @@ if (isset($_SESSION['message'])) {
                 </div>
                 <div class="form-group">
                     <label for="commentDetail">Comment</label>
-                    <textarea class="form-control" id="commentDetail"></textarea>
+                    <textarea class="form-control" id="commentDetail" name="commentDetail"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Update Profile</button>
             </form>
-</div>
+            </div>
         </div>
         <?php endif; ?>
         <div class="tab-pane fade <?php echo ($authority_level == 1) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
